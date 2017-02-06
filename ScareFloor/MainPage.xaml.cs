@@ -3,8 +3,10 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
+using System.Threading.Tasks;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
+using Windows.Media.Audio;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
@@ -22,9 +24,55 @@ namespace ScareFloor
     /// </summary>
     public sealed partial class MainPage : Page
     {
+        public AudioGraph ScareAudioGraph { get; set; }
+        public AudioDeviceInputNode ScareDeviceInputNode { get; set; }
+
         public MainPage()
         {
-            this.InitializeComponent();
+            InitializeComponent();
+            InitAudioGraph();
+            CreateDeviceInputNode();
+        }
+
+
+        private async Task InitAudioGraph()
+        {
+
+            AudioGraphSettings settings = new AudioGraphSettings(Windows.Media.Render.AudioRenderCategory.Media);
+
+            CreateAudioGraphResult result = await AudioGraph.CreateAsync(settings);
+            if (result.Status != AudioGraphCreationStatus.Success)
+            {
+                ShowErrorMessage("AudioGraph creation error: " + result.Status.ToString());
+            }
+
+            ScareAudioGraph = result.Graph;
+
+        }
+
+        private async Task CreateDeviceInputNode()
+        {
+            // Create a device output node
+            CreateAudioDeviceInputNodeResult result = await ScareAudioGraph.CreateDeviceInputNodeAsync(Windows.Media.Capture.MediaCategory.Media);
+
+            if (result.Status != AudioDeviceNodeCreationStatus.Success)
+            {
+                // Cannot create device output node
+                ShowErrorMessage(result.Status.ToString());
+                return;
+            }
+
+            ScareDeviceInputNode = result.DeviceInputNode;
+        }
+
+        private void ShowErrorMessage(string v)
+        {
+            this.HelloMessage.Text = v;
+        }
+
+        private void ClickMe_Click(object sender, RoutedEventArgs e)
+        {
+            this.HelloMessage.Text = "Hey I'm from Windows 10 IoT Core!";
         }
     }
 }
