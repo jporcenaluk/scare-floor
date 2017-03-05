@@ -1,13 +1,15 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 14
-VisualStudioVersion = 14.0.25420.1
+# Visual Studio 15
+VisualStudioVersion = 15.0.26206.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ScareFloor", "ScareFloor\ScareFloor.csproj", "{69F688A6-4D40-4145-B6D1-DFF96217A6B7}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AudioMeasure", "AudioMeasure\AudioMeasure.csproj", "{ECEA0C9E-427C-46C5-BB96-D4F30741122A}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LaughterDetector", "LaughterDetector\LaughterDetector.csproj", "{FBD67E63-2551-473B-AE98-4769D46DC139}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LaughterDetectorWPF", "LaughterDetectorWPF\LaughterDetectorWPF.csproj", "{DFF97A42-6F36-4632-AD6C-6CFE84B907FB}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -77,6 +79,22 @@ Global
 		{FBD67E63-2551-473B-AE98-4769D46DC139}.Release|x86.ActiveCfg = Release|x86
 		{FBD67E63-2551-473B-AE98-4769D46DC139}.Release|x86.Build.0 = Release|x86
 		{FBD67E63-2551-473B-AE98-4769D46DC139}.Release|x86.Deploy.0 = Release|x86
+		{DFF97A42-6F36-4632-AD6C-6CFE84B907FB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DFF97A42-6F36-4632-AD6C-6CFE84B907FB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DFF97A42-6F36-4632-AD6C-6CFE84B907FB}.Debug|ARM.ActiveCfg = Debug|Any CPU
+		{DFF97A42-6F36-4632-AD6C-6CFE84B907FB}.Debug|ARM.Build.0 = Debug|Any CPU
+		{DFF97A42-6F36-4632-AD6C-6CFE84B907FB}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{DFF97A42-6F36-4632-AD6C-6CFE84B907FB}.Debug|x64.Build.0 = Debug|Any CPU
+		{DFF97A42-6F36-4632-AD6C-6CFE84B907FB}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{DFF97A42-6F36-4632-AD6C-6CFE84B907FB}.Debug|x86.Build.0 = Debug|Any CPU
+		{DFF97A42-6F36-4632-AD6C-6CFE84B907FB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DFF97A42-6F36-4632-AD6C-6CFE84B907FB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DFF97A42-6F36-4632-AD6C-6CFE84B907FB}.Release|ARM.ActiveCfg = Release|Any CPU
+		{DFF97A42-6F36-4632-AD6C-6CFE84B907FB}.Release|ARM.Build.0 = Release|Any CPU
+		{DFF97A42-6F36-4632-AD6C-6CFE84B907FB}.Release|x64.ActiveCfg = Release|Any CPU
+		{DFF97A42-6F36-4632-AD6C-6CFE84B907FB}.Release|x64.Build.0 = Release|Any CPU
+		{DFF97A42-6F36-4632-AD6C-6CFE84B907FB}.Release|x86.ActiveCfg = Release|Any CPU
+		{DFF97A42-6F36-4632-AD6C-6CFE84B907FB}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
