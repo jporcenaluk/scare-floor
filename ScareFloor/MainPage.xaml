@@ -16,7 +16,7 @@
         <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
             <TextBlock Text="Internet Status"/>
             <Button Click="SendMessage" Content="Send Message"/>
-            
+            <TextBlock x:Name="MessageStatus" Text="Message Status..."/>
         </StackPanel>
     </StackPanel>
 </Page>

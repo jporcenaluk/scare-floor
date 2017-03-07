@@ -15,6 +15,8 @@ using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
+using System.Text;
+using Microsoft.Azure.Devices.Client;
 
 // The Blank Page item template is documented at http://go.microsoft.com/fwlink/?LinkId=402352&clcid=0x409
 
@@ -28,7 +30,6 @@ namespace ScareFloor
         private const int LED_PIN = 5;
         private GpioPin pin;
         private GpioPinValue pinValue;
-        private DispatcherTimer timer;
 
         public MainPage()
         {
@@ -73,9 +74,23 @@ namespace ScareFloor
             }
         }
 
-        private void SendMessage(object sender, RoutedEventArgs e)
+        private async void SendMessage(object sender, RoutedEventArgs e)
         {
             //TODO: Send message to cloud
+            string iotHubUri = "ScareFloor.azure-devices.net"; // ! put in value !
+            string deviceId = "scarefloor"; // ! put in value !
+            string deviceKey = "nJQ8o1NRGh6N39OD6dwpICXDi/n+KMZ0dXQpfPB0VqA="; // ! put in value !
+
+            var deviceClient = DeviceClient.Create(iotHubUri,
+                    AuthenticationMethodFactory.
+                        CreateAuthenticationWithRegistrySymmetricKey(deviceId, deviceKey),
+                    TransportType.Http1);
+
+            var str = "Hello, Cloud!";
+            var message = new Message(Encoding.ASCII.GetBytes(str));
+
+            await deviceClient.SendEventAsync(message);
+            MessageStatus.Text = "Sent";
         }
     }
 }

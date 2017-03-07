@@ -13,6 +13,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LaughterDetectorWPF", "Laug
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ScareFloorWeb", "ScareFloorWeb\ScareFloorWeb.csproj", "{A090D1EF-454E-40C9-B0B4-030766FA8483}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ScareFloor.ReadHubMessages", "ScareFloor.ReadHubMessages\ScareFloor.ReadHubMessages.csproj", "{66324B00-795C-43DD-8FBD-6FDDC4805251}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -113,6 +115,22 @@ Global
 		{A090D1EF-454E-40C9-B0B4-030766FA8483}.Release|x64.Build.0 = Release|Any CPU
 		{A090D1EF-454E-40C9-B0B4-030766FA8483}.Release|x86.ActiveCfg = Release|Any CPU
 		{A090D1EF-454E-40C9-B0B4-030766FA8483}.Release|x86.Build.0 = Release|Any CPU
+		{66324B00-795C-43DD-8FBD-6FDDC4805251}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{66324B00-795C-43DD-8FBD-6FDDC4805251}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{66324B00-795C-43DD-8FBD-6FDDC4805251}.Debug|ARM.ActiveCfg = Debug|Any CPU
+		{66324B00-795C-43DD-8FBD-6FDDC4805251}.Debug|ARM.Build.0 = Debug|Any CPU
+		{66324B00-795C-43DD-8FBD-6FDDC4805251}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{66324B00-795C-43DD-8FBD-6FDDC4805251}.Debug|x64.Build.0 = Debug|Any CPU
+		{66324B00-795C-43DD-8FBD-6FDDC4805251}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{66324B00-795C-43DD-8FBD-6FDDC4805251}.Debug|x86.Build.0 = Debug|Any CPU
+		{66324B00-795C-43DD-8FBD-6FDDC4805251}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{66324B00-795C-43DD-8FBD-6FDDC4805251}.Release|Any CPU.Build.0 = Release|Any CPU
+		{66324B00-795C-43DD-8FBD-6FDDC4805251}.Release|ARM.ActiveCfg = Release|Any CPU
+		{66324B00-795C-43DD-8FBD-6FDDC4805251}.Release|ARM.Build.0 = Release|Any CPU
+		{66324B00-795C-43DD-8FBD-6FDDC4805251}.Release|x64.ActiveCfg = Release|Any CPU
+		{66324B00-795C-43DD-8FBD-6FDDC4805251}.Release|x64.Build.0 = Release|Any CPU
+		{66324B00-795C-43DD-8FBD-6FDDC4805251}.Release|x86.ActiveCfg = Release|Any CPU
+		{66324B00-795C-43DD-8FBD-6FDDC4805251}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
