@@ -72,5 +72,10 @@ namespace ScareFloor
                 LightStatus.Text = "HIGH";
             }
         }
+
+        private void SendMessage(object sender, RoutedEventArgs e)
+        {
+            //TODO: Send message to cloud
+        }
     }
 }
