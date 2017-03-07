@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
 using System.Threading.Tasks;
+using Windows.Devices.Gpio;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
 using Windows.Media.Audio;
@@ -24,55 +25,52 @@ namespace ScareFloor
     /// </summary>
     public sealed partial class MainPage : Page
     {
-        public AudioGraph ScareAudioGraph { get; set; }
-        public AudioDeviceInputNode ScareDeviceInputNode { get; set; }
+        private const int LED_PIN = 5;
+        private GpioPin pin;
+        private GpioPinValue pinValue;
+        private DispatcherTimer timer;
 
         public MainPage()
         {
             InitializeComponent();
-            InitAudioGraph();
-            CreateDeviceInputNode();
+            InitGpio();
         }
 
 
-        private async Task InitAudioGraph()
+        private void InitGpio()
         {
+            var gpio = GpioController.GetDefault();
 
-            AudioGraphSettings settings = new AudioGraphSettings(Windows.Media.Render.AudioRenderCategory.Media);
-
-            CreateAudioGraphResult result = await AudioGraph.CreateAsync(settings);
-            if (result.Status != AudioGraphCreationStatus.Success)
+            // Show an error if there is no GPIO controller
+            if (gpio == null)
             {
-                ShowErrorMessage("AudioGraph creation error: " + result.Status.ToString());
-            }
-
-            ScareAudioGraph = result.Graph;
-
-        }
-
-        private async Task CreateDeviceInputNode()
-        {
-            // Create a device output node
-            CreateAudioDeviceInputNodeResult result = await ScareAudioGraph.CreateDeviceInputNodeAsync(Windows.Media.Capture.MediaCategory.Media);
-
-            if (result.Status != AudioDeviceNodeCreationStatus.Success)
-            {
-                // Cannot create device output node
-                ShowErrorMessage(result.Status.ToString());
+                pin = null;
+                GpioStatus.Text = "There is no GPIO controller on this device.";
                 return;
             }
 
-            ScareDeviceInputNode = result.DeviceInputNode;
+            pin = gpio.OpenPin(LED_PIN);
+            pinValue = GpioPinValue.High;
+            pin.Write(pinValue);
+            pin.SetDriveMode(GpioPinDriveMode.Output);
+
+            GpioStatus.Text = "GPIO pin initialized correctly.";
         }
 
-        private void ShowErrorMessage(string v)
+        private void LightToggle(object sender, RoutedEventArgs e)
         {
-            this.HelloMessage.Text = v;
-        }
-
-        private void ClickMe_Click(object sender, RoutedEventArgs e)
-        {
-            this.HelloMessage.Text = "Hey I'm from Windows 10 IoT Core!";
+            if (pinValue == GpioPinValue.High)
+            {
+                pinValue = GpioPinValue.Low;
+                pin.Write(pinValue);
+                LightStatus.Text = "LOW";
+            }
+            else
+            {
+                pinValue = GpioPinValue.High;
+                pin.Write(pinValue);
+                LightStatus.Text = "HIGH";
+            }
         }
     }
 }
