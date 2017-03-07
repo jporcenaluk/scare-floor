@@ -5,11 +5,11 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("ScareFloor.ReadIoTHubMessages")]
+[assembly: AssemblyTitle("ScareFloor.SendCloudToDevice")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("ScareFloor.ReadIoTHubMessages")]
+[assembly: AssemblyProduct("ScareFloor.SendCloudToDevice")]
 [assembly: AssemblyCopyright("Copyright ©  2017")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
@@ -20,7 +20,7 @@ using System.Runtime.InteropServices;
 [assembly: ComVisible(false)]
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM
-[assembly: Guid("6f4d286f-abc3-44a1-a627-bde795f16a78")]
+[assembly: Guid("b5d5aaae-dad0-4920-8d10-2e5358d43254")]
 
 // Version information for an assembly consists of the following four values:
 //

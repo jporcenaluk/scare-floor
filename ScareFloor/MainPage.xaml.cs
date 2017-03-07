@@ -16,6 +16,7 @@ using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
 using System.Text;
+using Microsoft.Azure.Devices;
 using Microsoft.Azure.Devices.Client;
 
 // The Blank Page item template is documented at http://go.microsoft.com/fwlink/?LinkId=402352&clcid=0x409
@@ -30,11 +31,14 @@ namespace ScareFloor
         private const int LED_PIN = 5;
         private GpioPin pin;
         private GpioPinValue pinValue;
+        private DeviceClient deviceClient;
 
         public MainPage()
         {
             InitializeComponent();
             InitGpio();
+            InitDeviceClient();
+            ReceiveMessage();
         }
 
 
@@ -58,6 +62,18 @@ namespace ScareFloor
             GpioStatus.Text = "GPIO pin initialized correctly.";
         }
 
+        private void InitDeviceClient()
+        {
+            string iotHubUri = "ScareFloor.azure-devices.net"; // ! put in value !
+            string deviceId = "scarefloor"; // ! put in value !
+            string deviceKey = "nJQ8o1NRGh6N39OD6dwpICXDi/n+KMZ0dXQpfPB0VqA="; // ! put in value !
+
+            deviceClient = DeviceClient.Create(iotHubUri,
+                    AuthenticationMethodFactory.
+                        CreateAuthenticationWithRegistrySymmetricKey(deviceId, deviceKey),
+                    TransportType.Http1);
+        }
+
         private void LightToggle(object sender, RoutedEventArgs e)
         {
             if (pinValue == GpioPinValue.High)
@@ -76,21 +92,30 @@ namespace ScareFloor
 
         private async void SendMessage(object sender, RoutedEventArgs e)
         {
-            //TODO: Send message to cloud
-            string iotHubUri = "ScareFloor.azure-devices.net"; // ! put in value !
-            string deviceId = "scarefloor"; // ! put in value !
-            string deviceKey = "nJQ8o1NRGh6N39OD6dwpICXDi/n+KMZ0dXQpfPB0VqA="; // ! put in value !
-
-            var deviceClient = DeviceClient.Create(iotHubUri,
-                    AuthenticationMethodFactory.
-                        CreateAuthenticationWithRegistrySymmetricKey(deviceId, deviceKey),
-                    TransportType.Http1);
-
             var str = "Hello, Cloud!";
             var message = new Message(Encoding.ASCII.GetBytes(str));
 
             await deviceClient.SendEventAsync(message);
             MessageStatus.Text = "Sent";
+        }
+
+        private async void ReceiveMessage()
+        {
+            Console.WriteLine("\nReceiving cloud to device messages from service");
+            while (true)
+            {
+
+                Message receivedMessage = await deviceClient.ReceiveAsync();
+                if (receivedMessage == null) continue;
+
+                Console.ForegroundColor = ConsoleColor.Yellow;
+                Console.WriteLine("Received message: {0}", Encoding.ASCII.GetString(receivedMessage.GetBytes()));
+                Console.ResetColor();
+
+                MessageReceived.Text = Encoding.ASCII.GetString(receivedMessage.GetBytes());
+
+                await deviceClient.CompleteAsync(receivedMessage);
+            }
         }
     }
 }

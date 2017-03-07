@@ -18,5 +18,9 @@
             <Button Click="SendMessage" Content="Send Message"/>
             <TextBlock x:Name="MessageStatus" Text="Message Status..."/>
         </StackPanel>
+        <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
+            <TextBlock Text="Message Received"/>
+            <TextBlock x:Name="MessageReceived" Text="No Message Yet"/>
+        </StackPanel>
     </StackPanel>
 </Page>
