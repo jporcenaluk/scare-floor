@@ -27,7 +27,7 @@ namespace ScareFloor.Web.Controllers
         //TODO: Move this to a Web API method and call asyncronously
         public async Task<string> SendMessageToDevice()
         {
-            var commandMessage = new Message(Encoding.ASCII.GetBytes("Ha ha ha."));
+            var commandMessage = new Message(Encoding.ASCII.GetBytes("Ha. Gibberish."));
             await serviceClient.SendAsync("scarefloor", commandMessage);
             return "You sent a message.";
         }
