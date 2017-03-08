@@ -103,7 +103,7 @@ namespace ScareFloor.Device
                 {
                     var laughterNumber = Regex.Matches(Regex.Escape(message.ToLowerInvariant()), "ha").Count;
                     MessageReceived.Text += $" {laughterNumber}";
-                    lightControl.IncrementLightOn(laughterNumber);
+                    lightControl.IncrementLightOn();
                 }
                 else if (message.ToLowerInvariant().Contains("reset"))
                 {
