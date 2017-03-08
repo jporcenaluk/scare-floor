@@ -117,30 +117,6 @@ namespace ScareFloor.WPFVoice
         public bool IsMicrophoneClientWithIntent { get; set; }
 
         /// <summary>
-        /// Gets or sets a value indicating whether this instance is data client short phrase.
-        /// </summary>
-        /// <value>
-        /// <c>true</c> if this instance is data client short phrase; otherwise, <c>false</c>.
-        /// </value>
-        public bool IsDataClientShortPhrase { get; set; }
-
-        /// <summary>
-        /// Gets or sets a value indicating whether this instance is data client with intent.
-        /// </summary>
-        /// <value>
-        /// <c>true</c> if this instance is data client with intent; otherwise, <c>false</c>.
-        /// </value>
-        public bool IsDataClientWithIntent { get; set; }
-
-        /// <summary>
-        /// Gets or sets a value indicating whether this instance is data client dictation.
-        /// </summary>
-        /// <value>
-        /// <c>true</c> if this instance is data client dictation; otherwise, <c>false</c>.
-        /// </value>
-        public bool IsDataClientDictation { get; set; }
-
-        /// <summary>
         /// Gets or sets subscription key
         /// </summary>
         public string SubscriptionKey
@@ -180,22 +156,6 @@ namespace ScareFloor.WPFVoice
         }
 
         /// <summary>
-        /// Gets a value indicating whether or not to use the microphone.
-        /// </summary>
-        /// <value>
-        ///   <c>true</c> if [use microphone]; otherwise, <c>false</c>.
-        /// </value>
-        private bool UseMicrophone
-        {
-            get
-            {
-                return this.IsMicrophoneClientWithIntent ||
-                    this.IsMicrophoneClientDictation ||
-                    this.IsMicrophoneClientShortPhrase;
-            }
-        }
-
-        /// <summary>
         /// Gets a value indicating whether LUIS results are desired.
         /// </summary>
         /// <value>
@@ -207,7 +167,7 @@ namespace ScareFloor.WPFVoice
             {
                 return !string.IsNullOrEmpty(this.LuisAppId) &&
                     !string.IsNullOrEmpty(this.LuisSubscriptionID) &&
-                    (this.IsMicrophoneClientWithIntent || this.IsDataClientWithIntent);
+                    (this.IsMicrophoneClientWithIntent);
             }
         }
 
@@ -221,8 +181,7 @@ namespace ScareFloor.WPFVoice
         {
             get
             {
-                if (this.IsMicrophoneClientDictation ||
-                    this.IsDataClientDictation)
+                if (this.IsMicrophoneClientDictation)
                 {
                     return SpeechRecognitionMode.LongDictation;
                 }
@@ -242,33 +201,6 @@ namespace ScareFloor.WPFVoice
             get { return "en-US"; }
         }
 
-        /// <summary>
-        /// Gets the short wave file path.
-        /// </summary>
-        /// <value>
-        /// The short wave file.
-        /// </value>
-        private string ShortWaveFile
-        {
-            get
-            {
-                return ConfigurationManager.AppSettings["ShortWaveFile"];
-            }
-        }
-
-        /// <summary>
-        /// Gets the long wave file path.
-        /// </summary>
-        /// <value>
-        /// The long wave file.
-        /// </value>
-        private string LongWaveFile
-        {
-            get
-            {
-                return ConfigurationManager.AppSettings["LongWaveFile"];
-            }
-        }
 
         /// <summary>
         /// Gets the Cognitive Service Authentication Uri.
@@ -329,9 +261,6 @@ namespace ScareFloor.WPFVoice
             this.IsMicrophoneClientShortPhrase = true;
             this.IsMicrophoneClientWithIntent = false;
             this.IsMicrophoneClientDictation = false;
-            this.IsDataClientShortPhrase = false;
-            this.IsDataClientWithIntent = false;
-            this.IsDataClientDictation = false;
 
             // Set the default choice for the group of checkbox.
             this._micRadioButton.IsChecked = true;
@@ -351,38 +280,20 @@ namespace ScareFloor.WPFVoice
 
             this.LogRecognitionStart();
 
-            if (this.UseMicrophone)
-            {
-                if (this.micClient == null)
-                {
-                    if (this.WantIntent)
-                    {
-                        this.CreateMicrophoneRecoClientWithIntent();
-                    }
-                    else
-                    {
-                        this.CreateMicrophoneRecoClient();
-                    }
-                }
 
-                this.micClient.StartMicAndRecognition();
-            }
-            else
+            if (this.micClient == null)
             {
-                if (null == this.dataClient)
+                if (this.WantIntent)
                 {
-                    if (this.WantIntent)
-                    {
-                        this.CreateDataRecoClientWithIntent();
-                    }
-                    else
-                    {
-                        this.CreateDataRecoClient();
-                    }
+                    this.CreateMicrophoneRecoClientWithIntent();
                 }
-
-                this.SendAudioHelper((this.Mode == SpeechRecognitionMode.ShortPhrase) ? this.ShortWaveFile : this.LongWaveFile);
+                else
+                {
+                    this.CreateMicrophoneRecoClient();
+                }
             }
+
+            this.micClient.StartMicAndRecognition();
         }
 
         /// <summary>
@@ -391,18 +302,9 @@ namespace ScareFloor.WPFVoice
         private void LogRecognitionStart()
         {
             string recoSource;
-            if (this.UseMicrophone)
-            {
-                recoSource = "microphone";
-            }
-            else if (this.Mode == SpeechRecognitionMode.ShortPhrase)
-            {
-                recoSource = "short wav file";
-            }
-            else
-            {
-                recoSource = "long wav file";
-            }
+
+            recoSource = "microphone";
+
 
             this.WriteLine("\n--- Start speech recognition using " + recoSource + " with " + this.Mode + " mode in " + this.DefaultLocale + " language ----\n\n");
         }
@@ -467,96 +369,6 @@ namespace ScareFloor.WPFVoice
         }
 
         /// <summary>
-        /// Creates a data client without LUIS intent support.
-        /// Speech recognition with data (for example from a file or audio source).  
-        /// The data is broken up into buffers and each buffer is sent to the Speech Recognition Service.
-        /// No modification is done to the buffers, so the user can apply their
-        /// own Silence Detection if desired.
-        /// </summary>
-        private void CreateDataRecoClient()
-        {
-            this.dataClient = SpeechRecognitionServiceFactory.CreateDataClient(
-                this.Mode,
-                this.DefaultLocale,
-                this.SubscriptionKey);
-            this.dataClient.AuthenticationUri = this.AuthenticationUri;
-
-            // Event handlers for speech recognition results
-            if (this.Mode == SpeechRecognitionMode.ShortPhrase)
-            {
-                this.dataClient.OnResponseReceived += this.OnDataShortPhraseResponseReceivedHandler;
-            }
-            else
-            {
-                this.dataClient.OnResponseReceived += this.OnDataDictationResponseReceivedHandler;
-            }
-
-            this.dataClient.OnPartialResponseReceived += this.OnPartialResponseReceivedHandler;
-            this.dataClient.OnConversationError += this.OnConversationErrorHandler;
-        }
-
-        /// <summary>
-        /// Creates a data client with LUIS intent support.
-        /// Speech recognition with data (for example from a file or audio source).  
-        /// The data is broken up into buffers and each buffer is sent to the Speech Recognition Service.
-        /// No modification is done to the buffers, so the user can apply their
-        /// own Silence Detection if desired.
-        /// </summary>
-        private void CreateDataRecoClientWithIntent()
-        {
-            this.dataClient = SpeechRecognitionServiceFactory.CreateDataClientWithIntent(
-                this.DefaultLocale,
-                this.SubscriptionKey,
-                this.LuisAppId,
-                this.LuisSubscriptionID);
-            this.dataClient.AuthenticationUri = this.AuthenticationUri;
-
-            // Event handlers for speech recognition results
-            this.dataClient.OnResponseReceived += this.OnDataShortPhraseResponseReceivedHandler;
-            this.dataClient.OnPartialResponseReceived += this.OnPartialResponseReceivedHandler;
-            this.dataClient.OnConversationError += this.OnConversationErrorHandler;
-
-            // Event handler for intent result
-            this.dataClient.OnIntent += this.OnIntentHandler;
-        }
-
-        /// <summary>
-        /// Sends the audio helper.
-        /// </summary>
-        /// <param name="wavFileName">Name of the wav file.</param>
-        private void SendAudioHelper(string wavFileName)
-        {
-            using (FileStream fileStream = new FileStream(wavFileName, FileMode.Open, FileAccess.Read))
-            {
-                // Note for wave files, we can just send data from the file right to the server.
-                // In the case you are not an audio file in wave format, and instead you have just
-                // raw data (for example audio coming over bluetooth), then before sending up any 
-                // audio data, you must first send up an SpeechAudioFormat descriptor to describe 
-                // the layout and format of your raw audio data via DataRecognitionClient's sendAudioFormat() method.
-                int bytesRead = 0;
-                byte[] buffer = new byte[1024];
-
-                try
-                {
-                    do
-                    {
-                        // Get more Audio data to send into byte buffer.
-                        bytesRead = fileStream.Read(buffer, 0, buffer.Length);
-
-                        // Send of audio data to service. 
-                        this.dataClient.SendAudio(buffer, bytesRead);
-                    }
-                    while (bytesRead > 0);
-                }
-                finally
-                {
-                    // We are done sending audio.  Final recognition results will arrive in OnResponseReceived event call.
-                    this.dataClient.EndAudio();
-                }
-            }
-        }
-
-        /// <summary>
         /// Called when a final response is received;
         /// </summary>
         /// <param name="sender">The sender.</param>
@@ -572,27 +384,6 @@ namespace ScareFloor.WPFVoice
                 // sending all the data.
                 this.micClient.EndMicAndRecognition();
 
-                this.WriteResponseResult(e);
-
-                _startButton.IsEnabled = true;
-                _radioGroup.IsEnabled = true;
-            }));
-        }
-
-        /// <summary>
-        /// Called when a final response is received;
-        /// </summary>
-        /// <param name="sender">The sender.</param>
-        /// <param name="e">The <see cref="SpeechResponseEventArgs"/> instance containing the event data.</param>
-        private void OnDataShortPhraseResponseReceivedHandler(object sender, SpeechResponseEventArgs e)
-        {
-            Dispatcher.Invoke((Action)(() =>
-            {
-                this.WriteLine("--- OnDataShortPhraseResponseReceivedHandler ---");
-
-                // we got the final result, so it we can end the mic reco.  No need to do this
-                // for dataReco, since we already called endAudio() on it as soon as we were done
-                // sending all the data.
                 this.WriteResponseResult(e);
 
                 _startButton.IsEnabled = true;
@@ -653,31 +444,6 @@ namespace ScareFloor.WPFVoice
             this.WriteResponseResult(e);
         }
 
-        /// <summary>
-        /// Called when a final response is received;
-        /// </summary>
-        /// <param name="sender">The sender.</param>
-        /// <param name="e">The <see cref="SpeechResponseEventArgs"/> instance containing the event data.</param>
-        private void OnDataDictationResponseReceivedHandler(object sender, SpeechResponseEventArgs e)
-        {
-            this.WriteLine("--- OnDataDictationResponseReceivedHandler ---");
-            if (e.PhraseResponse.RecognitionStatus == RecognitionStatus.EndOfDictation ||
-                e.PhraseResponse.RecognitionStatus == RecognitionStatus.DictationEndSilenceTimeout)
-            {
-                Dispatcher.Invoke(
-                    (Action)(() =>
-                    {
-                        _startButton.IsEnabled = true;
-                        _radioGroup.IsEnabled = true;
-
-                        // we got the final result, so it we can end the mic reco.  No need to do this
-                        // for dataReco, since we already called endAudio() on it as soon as we were done
-                        // sending all the data.
-                    }));
-            }
-
-            this.WriteResponseResult(e);
-        }
 
         /// <summary>
         /// Called when a final response is received and its intent is parsed
