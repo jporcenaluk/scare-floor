@@ -41,6 +41,7 @@ namespace ScareFloor.Device
             InitDeviceClient();
             ReceiveMessage();
             InitLightControl();
+          
             MessageList.ItemsSource = Messages;
         }
 

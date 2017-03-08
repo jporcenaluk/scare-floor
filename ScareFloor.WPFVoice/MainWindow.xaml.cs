@@ -42,6 +42,7 @@ namespace ScareFloor.WPFVoice
     using System.IO;
     using System.IO.IsolatedStorage;
     using System.Runtime.CompilerServices;
+    using System.Text;
     using System.Windows;
 
     /// <summary>

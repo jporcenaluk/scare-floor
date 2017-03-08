@@ -31,7 +31,7 @@
             </StackPanel>
         </ScrollViewer>
 
-        <ListBox Grid.Row="1" Margin="20" x:Name="MessageList" ScrollViewer.VerticalScrollBarVisibility="Visible">
+        <ListBox Grid.Row="1" Margin="20" Name="MessageList" ScrollViewer.VerticalScrollBarVisibility="Visible">
             <ListBox.ItemTemplate>
                 <DataTemplate>
                     <StackPanel Orientation="Horizontal">
