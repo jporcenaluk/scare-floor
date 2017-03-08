@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.Azure.Devices;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -8,6 +9,9 @@ namespace ScareFloor.Web.Controllers
 {
     public class HomeController : Controller
     {
+        static ServiceClient serviceClient;
+        static string connectionString = "HostName=ScareFloor.azure-devices.net;SharedAccessKeyName=iothubowner;SharedAccessKey=tCrFeIzJOYwCIFHXtTpnnBek9cDNYyr/2z0Rt52eh/w=";
+
         public ActionResult Index()
         {
             return View();
