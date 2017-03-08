@@ -31,6 +31,7 @@ namespace ScareFloor.Device
     {
         private DeviceClient deviceClient;
         private LightControl lightControl;
+        public List<string> Messages { get; set; }
 
         public MainPage()
         {
@@ -38,6 +39,7 @@ namespace ScareFloor.Device
             InitDeviceClient();
             ReceiveMessage();
             InitLightControl();
+            MessageList.ItemsSource = Messages;
         }
 
 
@@ -87,6 +89,7 @@ namespace ScareFloor.Device
 
             await deviceClient.SendEventAsync(message);
             MessageStatus.Text = "Sent";
+            Messages.Add($"{str} (sent)");
         }
 
         private async void ReceiveMessage()
@@ -99,6 +102,7 @@ namespace ScareFloor.Device
                 
                 var message = Encoding.ASCII.GetString(receivedMessage.GetBytes());
                 MessageReceived.Text = message;
+                Messages.Add($"{message} (received)");
                 if (message.ToLowerInvariant().Contains("ha"))
                 {
                     var laughterNumber = Regex.Matches(Regex.Escape(message.ToLowerInvariant()), "ha").Count;

@@ -33,6 +33,7 @@
 
 namespace ScareFloor.WPFVoice
 {
+    using Microsoft.Azure.Devices;
     using Microsoft.CognitiveServices.SpeechRecognition;
     using System;
     using System.ComponentModel;
@@ -57,6 +58,9 @@ namespace ScareFloor.WPFVoice
         /// The default subscription key prompt message
         /// </summary>
         private const string DefaultSubscriptionKeyPromptMessage = "913844aa238e4efb84f758af254deb86";
+
+        static ServiceClient serviceClient;
+        static string connectionString = "HostName=ScareFloor.azure-devices.net;SharedAccessKeyName=iothubowner;SharedAccessKey=tCrFeIzJOYwCIFHXtTpnnBek9cDNYyr/2z0Rt52eh/w=";
 
         /// <summary>
         /// You can also put the primary key in app.config, instead of using UI.

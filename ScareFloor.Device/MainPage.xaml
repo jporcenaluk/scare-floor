@@ -23,6 +23,15 @@
                 <TextBlock Text="Message Received"/>
                 <TextBlock x:Name="MessageReceived" Text="No Message Yet"/>
             </StackPanel>
+            <ListBox Margin="20" Name="MessageList">
+                <ListBox.ItemTemplate>
+                    <DataTemplate>
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="{Binding}" />
+                        </StackPanel>
+                    </DataTemplate>
+                </ListBox.ItemTemplate>
+            </ListBox>
         </StackPanel>
     </Grid>
 
