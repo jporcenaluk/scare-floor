@@ -17,13 +17,13 @@ namespace ScareFloor.Device
             pin.SetDriveMode(GpioPinDriveMode.Output);
         }
 
-        public SetPinValue(GpioPinValue value)
+        public void SetPinValue(GpioPinValue value)
         {
             pin.Write(value);
             pinValue = value;
         }
 
-        public TogglePinValue()
+        public void TogglePinValue()
         {
             if (pinValue == GpioPinValue.High)
             {

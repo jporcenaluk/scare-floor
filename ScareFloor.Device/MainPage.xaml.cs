@@ -35,7 +35,6 @@ namespace ScareFloor.Device
         public MainPage()
         {
             InitializeComponent();
-            InitGpio();
             InitDeviceClient();
             ReceiveMessage();
             InitLightControl();
@@ -53,14 +52,6 @@ namespace ScareFloor.Device
             }
 
             lightControl = new LightControl(gpio);
-
-   
-
-            pin = gpio.OpenPin(LED_PIN);
-            pinValue = GpioPinValue.High;
-            pin.Write(pinValue);
-            pin.SetDriveMode(GpioPinDriveMode.Output);
-
             GpioStatus.Text = "GPIO pin initialized correctly.";
         }
 

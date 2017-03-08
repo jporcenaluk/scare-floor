@@ -9,14 +9,11 @@ namespace ScareFloor.Device
 {
     public class LightControl
     {
-        private const int LED_PIN = 5;
-        private GpioPin pin;
-        private GpioPinValue pinValue;
         private GpioController Gpio { get; set; }
         private IList<LightModel> Lights { get; set; }
         private IList<int> AvailablePinList { get; set; } = new List<int>()
         {
-            2,3,4,5,6,7,8,9,10,11
+            4
         };
 
         public LightControl(GpioController gpio)
