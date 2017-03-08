@@ -14,6 +14,7 @@
         <ScrollViewer Grid.Row="0">
             <StackPanel>
                 <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
+                    <TextBlock Text="Release 1"/>
                     <TextBlock Text="Light Control"/>
                     <TextBox x:Name="GpioStatus" Text="Initializing..." Margin="10" IsReadOnly="True"/>
                     <Button Click="LightToggle" Content="Light Toggle" />

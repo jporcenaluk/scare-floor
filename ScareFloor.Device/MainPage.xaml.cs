@@ -74,8 +74,8 @@ namespace ScareFloor.Device
 
         private void LightToggle(object sender, RoutedEventArgs e)
         {
-            var state = lightControl.GetLightStates();
-            if (state.Where(s => s.pinValue == GpioPinValue.High).ToList().Count > 0)
+            var status = lightControl.GetLightMeterStatus();
+            if (status == LightControl.LightMeterStatus.Filled || status == LightControl.LightMeterStatus.PartiallyFilled)
             {
                 lightControl.TurnAllLightsOff();
             }

@@ -6,8 +6,9 @@
         xmlns:local="clr-namespace:ScareFloor.LeaderBoard"
         mc:Ignorable="d"
         Title="MainWindow" Height="350" Width="525">
-    <Grid>
+    <StackPanel>
         <TextBox Text="Current User"></TextBox>
-        <TextBlock Name="LeaderboardValue"></TextBlock>
-    </Grid>
+        <TextBlock Name="LeaderboardValue" FontSize="36"></TextBlock>
+        <Button Content="Reset" Click="Reset"/>
+    </StackPanel>
 </Window>
