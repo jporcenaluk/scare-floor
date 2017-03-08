@@ -29,10 +29,8 @@ namespace ScareFloor.Device
     /// </summary>
     public sealed partial class MainPage : Page
     {
-        private const int LED_PIN = 5;
-        private GpioPin pin;
-        private GpioPinValue pinValue;
         private DeviceClient deviceClient;
+        private LightControl lightControl;
 
         public MainPage()
         {
@@ -40,20 +38,23 @@ namespace ScareFloor.Device
             InitGpio();
             InitDeviceClient();
             ReceiveMessage();
+            InitLightControl();
         }
 
 
-        private void InitGpio()
+        private void InitLightControl()
         {
             var gpio = GpioController.GetDefault();
-
-            // Show an error if there is no GPIO controller
+         // Show an error if there is no GPIO controller
             if (gpio == null)
             {
-                pin = null;
                 GpioStatus.Text = "There is no GPIO controller on this device.";
                 return;
             }
+
+            lightControl = new LightControl(gpio);
+
+   
 
             pin = gpio.OpenPin(LED_PIN);
             pinValue = GpioPinValue.High;
@@ -77,17 +78,14 @@ namespace ScareFloor.Device
 
         private void LightToggle(object sender, RoutedEventArgs e)
         {
-            if (pinValue == GpioPinValue.High)
+            var state = lightControl.GetLightStates();
+            if (state.Where(s => s.pinValue == GpioPinValue.High).ToList().Count > 0)
             {
-                pinValue = GpioPinValue.Low;
-                pin.Write(pinValue);
-                LightStatus.Text = "LOW";
+                lightControl.TurnAllLightsOff();
             }
             else
             {
-                pinValue = GpioPinValue.High;
-                pin.Write(pinValue);
-                LightStatus.Text = "HIGH";
+                lightControl.TurnAllLightsOn();
             }
         }
 
@@ -114,10 +112,12 @@ namespace ScareFloor.Device
                 {
                     var laughterNumber = Regex.Matches(Regex.Escape(message.ToLowerInvariant()), "ha").Count;
                     MessageReceived.Text += $" {laughterNumber}";
+                    lightControl.IncrementLightOn(laughterNumber);
                 }
                 else if (message.ToLowerInvariant().Contains("reset"))
                 {
                     MessageReceived.Text = "Reset the lights";
+                    lightControl.TurnAllLightsOff();
                 }
 
                 await deviceClient.CompleteAsync(receivedMessage);
