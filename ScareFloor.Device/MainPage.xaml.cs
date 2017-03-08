@@ -102,15 +102,28 @@ namespace ScareFloor.Device
             {
                 Message receivedMessage = await deviceClient.ReceiveAsync();
                 if (receivedMessage == null) continue;
+                var initialLightMeterStatus = lightControl.GetLightMeterStatus();
+               
 
                 var message = Encoding.ASCII.GetString(receivedMessage.GetBytes());
                 MessageReceived.Text = message;
                 Messages.Add($"{message} (received)");
-                if (message.ToLowerInvariant().Contains("ha"))
+
+                //TODO: Figure out a better way to determine if laughter is involved, and better eliminate false positives.
+                var containsLaughter = message.ToLowerInvariant().Contains("ha ")
+                                        || message.ToLowerInvariant().Contains("ha.")
+                                        || message.ToLowerInvariant() == "ha";
+
+                if (message.ToLowerInvariant().Contains("ha") && initialLightMeterStatus != LightControl.LightMeterStatus.Filled)
                 {
                     var laughterNumber = Regex.Matches(Regex.Escape(message.ToLowerInvariant()), "ha").Count;
                     MessageReceived.Text += $" {laughterNumber}";
                     lightControl.IncrementLightOn();
+                    var status = lightControl.GetLightMeterStatus();
+                    if (status == LightControl.LightMeterStatus.Filled)
+                    {
+                        SendFilledMessage();
+                    }
                 }
                 else if (message.ToLowerInvariant().Contains("reset"))
                 {
@@ -120,6 +133,16 @@ namespace ScareFloor.Device
 
                 await deviceClient.CompleteAsync(receivedMessage);
             }
+        }
+
+        private async void SendFilledMessage()
+        {
+            var str = "Filled!";
+            var message = new Message(Encoding.ASCII.GetBytes(str));
+
+            await deviceClient.SendEventAsync(message);
+            MessageStatus.Text = "Sent";
+            Messages.Add($"{str} (sent)");
         }
     }
 }

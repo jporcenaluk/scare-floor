@@ -9,8 +9,10 @@ namespace ScareFloor.Device
 {
     public class LightControl
     {
+        public enum LightMeterStatus { Filled, PartiallyFilled, Empty }
         private GpioController Gpio { get; set; }
         private IList<LightModel> Lights { get; set; }
+
         private IList<int> AvailablePinList { get; set; } = new List<int>()
         {
             4,5,6,12,13
@@ -75,9 +77,20 @@ namespace ScareFloor.Device
             }
         }
 
-        public IList<LightModel> GetLightStates()
+        public LightMeterStatus GetLightMeterStatus()
         {
-            return Lights;
+            if (Lights.All(s => s.pinValue == GpioPinValue.High))
+            {
+                return LightMeterStatus.Filled;
+            }
+            else if (Lights.All(s => s.pinValue == GpioPinValue.Low))
+            {
+                return LightMeterStatus.Empty;
+            }
+            else
+            {
+                return LightMeterStatus.PartiallyFilled;
+            }
         }
 
         /// <summary>
@@ -91,26 +104,6 @@ namespace ScareFloor.Device
                 {
                     light.SetPinValue(GpioPinValue.High);
                     return;
-                }
-            }
-        }
-
-        public void IncrementLightOn(int amount)
-        {
-            if (amount <= 0) return;
-
-            var count = 0;
-            foreach (var light in Lights)
-            {
-                if (light.pinValue == GpioPinValue.Low)
-                {
-                    light.SetPinValue(GpioPinValue.High);
-                    count++;
-                    var exceededAmount = count >= amount;
-                    if (exceededAmount)
-                    {
-                        return;
-                    }
                 }
             }
         }
