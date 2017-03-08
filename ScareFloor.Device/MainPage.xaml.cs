@@ -19,6 +19,7 @@ using System.Text;
 using Microsoft.Azure.Devices;
 using Microsoft.Azure.Devices.Client;
 using System.Text.RegularExpressions;
+using System.Collections.ObjectModel;
 
 // The Blank Page item template is documented at https://go.microsoft.com/fwlink/?LinkId=402352&clcid=0x409
 
@@ -31,10 +32,11 @@ namespace ScareFloor.Device
     {
         private DeviceClient deviceClient;
         private LightControl lightControl;
-        public List<string> Messages { get; set; }
+        public ObservableCollection<string> Messages { get; set; } = new ObservableCollection<string>();
 
         public MainPage()
         {
+
             InitializeComponent();
             InitDeviceClient();
             ReceiveMessage();
@@ -46,7 +48,7 @@ namespace ScareFloor.Device
         private void InitLightControl()
         {
             var gpio = GpioController.GetDefault();
-         // Show an error if there is no GPIO controller
+            // Show an error if there is no GPIO controller
             if (gpio == null)
             {
                 GpioStatus.Text = "There is no GPIO controller on this device.";
@@ -99,7 +101,7 @@ namespace ScareFloor.Device
             {
                 Message receivedMessage = await deviceClient.ReceiveAsync();
                 if (receivedMessage == null) continue;
-                
+
                 var message = Encoding.ASCII.GetString(receivedMessage.GetBytes());
                 MessageReceived.Text = message;
                 Messages.Add($"{message} (received)");

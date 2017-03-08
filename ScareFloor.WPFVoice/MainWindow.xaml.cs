@@ -85,6 +85,7 @@ namespace ScareFloor.WPFVoice
         {
             this.InitializeComponent();
             this.Initialize();
+            serviceClient = ServiceClient.CreateFromConnectionString(connectionString);
         }
 
         #region Events
@@ -395,6 +396,8 @@ namespace ScareFloor.WPFVoice
             }));
         }
 
+     
+
         /// <summary>
         /// Writes the response result.
         /// </summary>
@@ -471,6 +474,10 @@ namespace ScareFloor.WPFVoice
             this.WriteLine("--- Partial result received by OnPartialResponseReceivedHandler() ---");
             this.WriteLine("{0}", e.PartialResult);
             this.WriteLine();
+
+            //Send the partial result to the device
+            var commandMessage = new Message(Encoding.ASCII.GetBytes(e.PartialResult));
+            serviceClient.SendAsync("scarefloor", commandMessage);
         }
 
         /// <summary>
