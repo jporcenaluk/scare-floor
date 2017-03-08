@@ -2,6 +2,8 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
 
@@ -12,23 +14,30 @@ namespace ScareFloor.Web.Controllers
         static ServiceClient serviceClient;
         static string connectionString = "HostName=ScareFloor.azure-devices.net;SharedAccessKeyName=iothubowner;SharedAccessKey=tCrFeIzJOYwCIFHXtTpnnBek9cDNYyr/2z0Rt52eh/w=";
 
+        public HomeController()
+        {
+            serviceClient = ServiceClient.CreateFromConnectionString(connectionString);
+        }
+
         public ActionResult Index()
         {
             return View();
         }
 
-        public ActionResult About()
+        //TODO: Move this to a Web API method and call asyncronously
+        public async Task<string> SendMessageToDevice()
         {
-            ViewBag.Message = "Your application description page.";
-
-            return View();
+            var commandMessage = new Message(Encoding.ASCII.GetBytes("Ha ha ha."));
+            await serviceClient.SendAsync("scarefloor", commandMessage);
+            return "You sent a message.";
         }
 
-        public ActionResult Contact()
+        //TODO: Move this to a Web API method and call asyncronously
+        public async Task<string> ResetDevice()
         {
-            ViewBag.Message = "Your contact page.";
-
-            return View();
+            var commandMessage = new Message(Encoding.ASCII.GetBytes("Reset."));
+            await serviceClient.SendAsync("scarefloor", commandMessage);
+            return "You told the device to reset.";
         }
     }
 }

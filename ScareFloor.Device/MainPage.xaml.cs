@@ -18,6 +18,7 @@ using Windows.UI.Xaml.Navigation;
 using System.Text;
 using Microsoft.Azure.Devices;
 using Microsoft.Azure.Devices.Client;
+using System.Text.RegularExpressions;
 
 // The Blank Page item template is documented at https://go.microsoft.com/fwlink/?LinkId=402352&clcid=0x409
 
@@ -101,18 +102,23 @@ namespace ScareFloor.Device
 
         private async void ReceiveMessage()
         {
-            Console.WriteLine("\nReceiving cloud to device messages from service");
+            MessageReceived.Text = "Receiving cloud to device messages from service";
             while (true)
             {
-
                 Message receivedMessage = await deviceClient.ReceiveAsync();
                 if (receivedMessage == null) continue;
-
-                Console.ForegroundColor = ConsoleColor.Yellow;
-                Console.WriteLine("Received message: {0}", Encoding.ASCII.GetString(receivedMessage.GetBytes()));
-                Console.ResetColor();
-
-                MessageReceived.Text = Encoding.ASCII.GetString(receivedMessage.GetBytes());
+                
+                var message = Encoding.ASCII.GetString(receivedMessage.GetBytes());
+                MessageReceived.Text = message;
+                if (message.ToLowerInvariant().Contains("ha"))
+                {
+                    var laughterNumber = Regex.Matches(Regex.Escape(message.ToLowerInvariant()), "ha").Count;
+                    MessageReceived.Text += $" {laughterNumber}";
+                }
+                else if (message.ToLowerInvariant().Contains("reset"))
+                {
+                    MessageReceived.Text = "Reset the lights";
+                }
 
                 await deviceClient.CompleteAsync(receivedMessage);
             }

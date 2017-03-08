@@ -6,22 +6,24 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d">
+    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+        <StackPanel >
+            <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
+                <TextBlock Text="Light Control"/>
+                <TextBox x:Name="GpioStatus" Text="Initializing..." Margin="10" IsReadOnly="True"/>
+                <Button Click="LightToggle" Content="Light Toggle" />
+                <TextBox x:Name="LightStatus" Text="LightStatus" Margin="10" IsReadOnly="True" Background="#66BFE419"/>
+            </StackPanel>
+            <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
+                <TextBlock Text="Internet Status"/>
+                <Button Click="SendMessage" Content="Send Message"/>
+                <TextBlock x:Name="MessageStatus" Text="Message Status..."/>
+            </StackPanel>
+            <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
+                <TextBlock Text="Message Received"/>
+                <TextBlock x:Name="MessageReceived" Text="No Message Yet"/>
+            </StackPanel>
+        </StackPanel>
+    </Grid>
 
-    <StackPanel Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
-        <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
-            <TextBlock Text="Light Control"/>
-            <TextBox x:Name="GpioStatus" Text="Initializing..." Margin="10" IsReadOnly="True"/>
-            <Button Click="LightToggle" Content="Light Toggle" />
-            <TextBox x:Name="LightStatus" Text="LightStatus" Margin="10" IsReadOnly="True" Background="#66BFE419"/>
-        </StackPanel>
-        <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
-            <TextBlock Text="Internet Status"/>
-            <Button Click="SendMessage" Content="Send Message"/>
-            <TextBlock x:Name="MessageStatus" Text="Message Status..."/>
-        </StackPanel>
-        <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
-            <TextBlock Text="Message Received"/>
-            <TextBlock x:Name="MessageReceived" Text="No Message Yet"/>
-        </StackPanel>
-    </StackPanel>
 </Page>
