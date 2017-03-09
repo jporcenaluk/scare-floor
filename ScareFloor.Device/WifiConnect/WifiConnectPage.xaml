@@ -11,7 +11,7 @@
 //*********************************************************
 -->
 <Page
-    x:Class="SDKTemplate.MainPage"
+    x:Class="SDKTemplate.WifiConnectPage"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:local="using:SDKTemplate"
@@ -50,6 +50,7 @@
                 <RelativePanel Background="#FF140044">
                     <TextBlock x:Name="Header" Text="Windows Platform Sample" Style="{StaticResource TagLineTextStyle}" Margin="10,60,0,0"/>
                     <TextBlock x:Name="SampleTitle" Text="Sample Title Here" Style="{StaticResource SampleHeaderTextStyle}" TextWrapping="Wrap" RelativePanel.Below="Header" Margin="10,10,0,0"/>
+                   
                     <ListBox x:Name="ScenarioControl" SelectionChanged="ScenarioControl_SelectionChanged"
                  SelectionMode="Single" HorizontalAlignment="Left" Style="{StaticResource ScenarioListBoxStyle}"
                  VerticalAlignment="Top" RelativePanel.Below="SampleTitle" Margin="0,20,0,0" RelativePanel.Above="FooterPanel">
@@ -64,8 +65,10 @@
                         <StackPanel x:Name="LinksPanel" Orientation="Horizontal" Margin="10,10,0,10">
                             <HyperlinkButton Content="Trademarks" Tag="http://www.microsoft.com/About/Legal/EN/US/IntellectualProperty/Trademarks/EN-US.aspx"
                         Click="Footer_Click" FontSize="12" Style="{StaticResource HyperlinkStyle}" />
+                            <HyperlinkButton Content="Main Page" Click="NavigateToMainPage"/>
                             <TextBlock Text="|"  Style="{StaticResource SeparatorStyle}" VerticalAlignment="Center" />
                             <HyperlinkButton x:Name="PrivacyLink" Content="Privacy" Tag="http://privacy.microsoft.com" Click="Footer_Click" FontSize="12" Style="{StaticResource HyperlinkStyle}"/>
+                           
                         </StackPanel>
                     </StackPanel>
                 </RelativePanel>

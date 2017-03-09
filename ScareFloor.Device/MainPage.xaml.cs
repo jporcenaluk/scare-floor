@@ -144,5 +144,10 @@ namespace ScareFloor.Device
             MessageStatus.Text = "Sent";
             Messages.Add($"{str} (sent)");
         }
+
+        private void NavigateToWifi(object sender, RoutedEventArgs e)
+        {
+            this.Frame.Navigate(typeof(SDKTemplate.WifiConnectPage));
+        }
     }
 }

@@ -15,11 +15,11 @@ namespace SDKTemplate
     /// <summary>
     /// An empty page that can be used on its own or navigated to within a Frame.
     /// </summary>
-    public sealed partial class MainPage : Page
+    public sealed partial class WifiConnectPage : Page
     {
-        public static MainPage Current;
+        public static WifiConnectPage Current;
 
-        public MainPage()
+        public WifiConnectPage()
         {
             this.InitializeComponent();
 
@@ -105,6 +105,11 @@ namespace SDKTemplate
             Splitter.IsPaneOpen = (Splitter.IsPaneOpen == true) ? false : true;
             StatusBorder.Visibility = Visibility.Collapsed;
         }
+
+        private void NavigateToMainPage(object sender, RoutedEventArgs e)
+        {
+            this.Frame.Navigate(typeof(ScareFloor.Device.MainPage));
+        }
     }
     public enum NotifyType
     {
@@ -117,7 +122,7 @@ namespace SDKTemplate
         public object Convert(object value, Type targetType, object parameter, string language)
         {
             Scenario s = value as Scenario;
-            return (MainPage.Current.Scenarios.IndexOf(s) + 1) + ") " + s.Title;
+            return (WifiConnectPage.Current.Scenarios.IndexOf(s) + 1) + ") " + s.Title;
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, string language)

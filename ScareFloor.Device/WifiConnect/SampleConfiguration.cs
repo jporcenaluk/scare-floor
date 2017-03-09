@@ -8,7 +8,7 @@ using WiFiConnect;
 
 namespace SDKTemplate
 {
-    public partial class MainPage : Page
+    public partial class WifiConnectPage : Page
     {
         public const string FEATURE_NAME = "WiFi";
 

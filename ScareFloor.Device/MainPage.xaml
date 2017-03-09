@@ -3,6 +3,7 @@
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:local="using:ScareFloor.Device"
+    xmlns:wificonnect="using:SDKTemplate"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d">
@@ -10,36 +11,41 @@
         <Grid.RowDefinitions>
             <RowDefinition Height="*"></RowDefinition>
             <RowDefinition Height="2*"></RowDefinition>
-        </Grid.RowDefinitions>
-        <ScrollViewer Grid.Row="0">
-            <StackPanel>
-                <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
-                    <TextBlock Text="Release 1"/>
-                    <TextBlock Text="Light Control"/>
-                    <TextBox x:Name="GpioStatus" Text="Initializing..." Margin="10" IsReadOnly="True"/>
-                    <Button Click="LightToggle" Content="Light Toggle" />
-                    <TextBox x:Name="LightStatus" Text="LightStatus" Margin="10" IsReadOnly="True" Background="#66BFE419"/>
-                </StackPanel>
-                <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
-                    <TextBlock Text="Internet Status"/>
-                    <Button Click="SendMessage" Content="Send Message"/>
-                    <TextBlock x:Name="MessageStatus" Text="Message Status..."/>
-                </StackPanel>
-                <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
-                    <TextBlock Text="Message Received"/>
-                    <TextBlock x:Name="MessageReceived" Text="No Message Yet"/>
-                </StackPanel>
-            </StackPanel>
-        </ScrollViewer>
 
-        <ListBox Grid.Row="1" Margin="20" Name="MessageList" ScrollViewer.VerticalScrollBarVisibility="Visible">
-            <ListBox.ItemTemplate>
-                <DataTemplate>
-                    <StackPanel Orientation="Horizontal">
-                        <TextBlock Text="{Binding}" />
+        </Grid.RowDefinitions>
+       
+            <ScrollViewer Grid.Row="0">
+                <StackPanel>
+                <HyperlinkButton Content="Go To WiFi"
+                 HorizontalAlignment="Center" Click="NavigateToWifi"/>
+                <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
+                        <TextBlock Text="Release 1"/>
+                        <TextBlock Text="Light Control"/>
+                        <TextBox x:Name="GpioStatus" Text="Initializing..." Margin="10" IsReadOnly="True"/>
+                        <Button Click="LightToggle" Content="Light Toggle" />
+                        <TextBox x:Name="LightStatus" Text="LightStatus" Margin="10" IsReadOnly="True" Background="#66BFE419"/>
                     </StackPanel>
-                </DataTemplate>
-            </ListBox.ItemTemplate>
-        </ListBox>
+                    <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
+                        <TextBlock Text="Internet Status"/>
+                        <Button Click="SendMessage" Content="Send Message"/>
+                        <TextBlock x:Name="MessageStatus" Text="Message Status..."/>
+                    </StackPanel>
+                    <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
+                        <TextBlock Text="Message Received"/>
+                        <TextBlock x:Name="MessageReceived" Text="No Message Yet"/>
+                    </StackPanel>
+                </StackPanel>
+            </ScrollViewer>
+
+            <ListBox Grid.Row="1" Margin="20" Name="MessageList" ScrollViewer.VerticalScrollBarVisibility="Visible">
+                <ListBox.ItemTemplate>
+                    <DataTemplate>
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="{Binding}" />
+                        </StackPanel>
+                    </DataTemplate>
+                </ListBox.ItemTemplate>
+            </ListBox>
+ 
     </Grid>
 </Page>
