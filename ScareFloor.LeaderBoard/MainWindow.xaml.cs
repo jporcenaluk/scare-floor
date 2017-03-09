@@ -39,7 +39,10 @@ namespace ScareFloor.LeaderBoard
                 ReceiveMessagesFromDeviceAsync(receiver);
             }
 
-            async Task ReceiveMessagesFromDeviceAsync(EventHubReceiver receiver)
+
+        }
+
+        async Task ReceiveMessagesFromDeviceAsync(EventHubReceiver receiver)
             {
                 while (true)
                 {
@@ -56,7 +59,6 @@ namespace ScareFloor.LeaderBoard
                     Console.WriteLine("Message received: '{0}'", data);
                 }
             }
-        }
 
         private void Reset(object sender, RoutedEventArgs e)
         {

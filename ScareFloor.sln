@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 15
-VisualStudioVersion = 15.0.26228.4
+# Visual Studio 14
+VisualStudioVersion = 14.0.25420.1
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ScareFloor.ReadHubMessages", "ScareFloor.ReadHubMessages\ScareFloor.ReadHubMessages.csproj", "{66324B00-795C-43DD-8FBD-6FDDC4805251}"
 EndProject
@@ -60,9 +60,9 @@ Global
 		{B5D5AAAE-DAD0-4920-8D10-2E5358D43254}.Release|x86.ActiveCfg = Release|Any CPU
 		{B5D5AAAE-DAD0-4920-8D10-2E5358D43254}.Release|x86.Build.0 = Release|Any CPU
 		{84BA40A9-805A-4830-BA69-0C7C8C36C7A1}.Debug|Any CPU.ActiveCfg = Debug|x86
-		{84BA40A9-805A-4830-BA69-0C7C8C36C7A1}.Debug|ARM.ActiveCfg = Debug|ARM
-		{84BA40A9-805A-4830-BA69-0C7C8C36C7A1}.Debug|ARM.Build.0 = Debug|ARM
-		{84BA40A9-805A-4830-BA69-0C7C8C36C7A1}.Debug|ARM.Deploy.0 = Debug|ARM
+		{84BA40A9-805A-4830-BA69-0C7C8C36C7A1}.Debug|ARM.ActiveCfg = Release|ARM
+		{84BA40A9-805A-4830-BA69-0C7C8C36C7A1}.Debug|ARM.Build.0 = Release|ARM
+		{84BA40A9-805A-4830-BA69-0C7C8C36C7A1}.Debug|ARM.Deploy.0 = Release|ARM
 		{84BA40A9-805A-4830-BA69-0C7C8C36C7A1}.Debug|x64.ActiveCfg = Debug|x64
 		{84BA40A9-805A-4830-BA69-0C7C8C36C7A1}.Debug|x64.Build.0 = Debug|x64
 		{84BA40A9-805A-4830-BA69-0C7C8C36C7A1}.Debug|x64.Deploy.0 = Debug|x64

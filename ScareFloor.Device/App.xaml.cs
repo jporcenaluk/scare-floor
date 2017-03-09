@@ -32,6 +32,21 @@ namespace ScareFloor.Device
             this.Suspending += OnSuspending;
         }
 
+        protected override void OnActivated(IActivatedEventArgs args)
+        {
+            if (args == null)
+            {
+                return;
+            }
+            // NOTE: URI protocol handling code currently not implemented. As per the manifest declaration, protocol extension has been added to this app
+            // to prevent Windows.System.Launcher.dll module failure that occurs when attempting to navigate to URLs of this type
+            if (args.Kind == ActivationKind.Protocol)
+            {
+                ProtocolActivatedEventArgs eventArgs = args as ProtocolActivatedEventArgs;
+                System.Diagnostics.Debug.WriteLine(new Uri(eventArgs.Uri.AbsoluteUri));
+            }
+        }
+
         /// <summary>
         /// Invoked when the application is launched normally by the end user.  Other entry points
         /// will be used such as when the application is launched to open a specific file.
@@ -39,6 +54,13 @@ namespace ScareFloor.Device
         /// <param name="e">Details about the launch request and process.</param>
         protected override void OnLaunched(LaunchActivatedEventArgs e)
         {
+#if DEBUG
+            if (System.Diagnostics.Debugger.IsAttached)
+            {
+                this.DebugSettings.EnableFrameRateCounter = false;
+            }
+#endif
+
             Frame rootFrame = Window.Current.Content as Frame;
 
             // Do not repeat app initialization when the Window already has content,
