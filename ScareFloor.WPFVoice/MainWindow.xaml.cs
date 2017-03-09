@@ -662,5 +662,12 @@ namespace ScareFloor.WPFVoice
             this._startButton.IsEnabled = true;
             this._radioGroup.IsEnabled = true;
         }
+
+        private void _cheater_Click(object sender, RoutedEventArgs e)
+        {
+            //Send the partial result to the device
+            var commandMessage = new Message(Encoding.ASCII.GetBytes("ha "));
+            serviceClient.SendAsync("scarefloor", commandMessage);
+        }
     }
 }

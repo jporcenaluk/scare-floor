@@ -45,6 +45,7 @@
                     <ColumnDefinition Width="auto"></ColumnDefinition>
                     <ColumnDefinition Width="auto"></ColumnDefinition>
                 </Grid.ColumnDefinitions>
+                <Button x:Name="_cheater" Grid.Column="1" Margin="5" Padding="5" Content="Cheat" Click="_cheater_Click"></Button>
                 <Button x:Name="_startButton" Grid.Column="0" Content="Start _Recognition" Click="StartButton_Click" Margin="5" Padding="5"/>
             </Grid>
         </Grid>
