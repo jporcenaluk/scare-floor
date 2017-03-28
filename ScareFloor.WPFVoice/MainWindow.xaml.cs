@@ -669,5 +669,12 @@ namespace ScareFloor.WPFVoice
             var commandMessage = new Message(Encoding.ASCII.GetBytes("ha "));
             serviceClient.SendAsync("scarefloor", commandMessage);
         }
+
+        private void _clear_Click(object sender, RoutedEventArgs e)
+        {
+            //Send the partial result to the device
+            var commandMessage = new Message(Encoding.ASCII.GetBytes("reset"));
+            serviceClient.SendAsync("scarefloor", commandMessage);
+        }
     }
 }

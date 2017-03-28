@@ -15,7 +15,7 @@ namespace ScareFloor.Device
 
         private IList<int> AvailablePinList { get; set; } = new List<int>()
         {
-            4,5,6,12,13,16,17,19,20
+            4,5,6,12,13,16,17
         };
 
         public LightControl(GpioController gpio)
