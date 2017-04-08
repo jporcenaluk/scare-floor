@@ -140,44 +140,6 @@ namespace ScareFloor.WPFVoice
         }
 
         /// <summary>
-        /// Gets the LUIS application identifier.
-        /// </summary>
-        /// <value>
-        /// The LUIS application identifier.
-        /// </value>
-        private string LuisAppId
-        {
-            get { return ConfigurationManager.AppSettings["luisAppID"]; }
-        }
-
-        /// <summary>
-        /// Gets the LUIS subscription identifier.
-        /// </summary>
-        /// <value>
-        /// The LUIS subscription identifier.
-        /// </value>
-        private string LuisSubscriptionID
-        {
-            get { return ConfigurationManager.AppSettings["luisSubscriptionID"]; }
-        }
-
-        /// <summary>
-        /// Gets a value indicating whether LUIS results are desired.
-        /// </summary>
-        /// <value>
-        ///   <c>true</c> if LUIS results are to be returned otherwise, <c>false</c>.
-        /// </value>
-        private bool WantIntent
-        {
-            get
-            {
-                return !string.IsNullOrEmpty(this.LuisAppId) &&
-                    !string.IsNullOrEmpty(this.LuisSubscriptionID) &&
-                    (this.IsMicrophoneClientWithIntent);
-            }
-        }
-
-        /// <summary>
         /// Gets the current speech recognition mode.
         /// </summary>
         /// <value>
@@ -187,11 +149,6 @@ namespace ScareFloor.WPFVoice
         {
             get
             {
-                if (this.IsMicrophoneClientDictation)
-                {
-                    return SpeechRecognitionMode.LongDictation;
-                }
-
                 return SpeechRecognitionMode.ShortPhrase;
             }
         }
@@ -265,11 +222,6 @@ namespace ScareFloor.WPFVoice
         private void Initialize()
         {
             this.IsMicrophoneClientShortPhrase = true;
-            this.IsMicrophoneClientWithIntent = false;
-            this.IsMicrophoneClientDictation = false;
-
-            // Set the default choice for the group of checkbox.
-            this._micRadioButton.IsChecked = true;
 
             this.SubscriptionKey = this.GetSubscriptionKeyFromIsolatedStorage();
         }
@@ -282,21 +234,15 @@ namespace ScareFloor.WPFVoice
         private void StartButton_Click(object sender, RoutedEventArgs e)
         {
             this._startButton.IsEnabled = false;
-            this._radioGroup.IsEnabled = false;
 
             this.LogRecognitionStart();
 
 
             if (this.micClient == null)
             {
-                if (this.WantIntent)
-                {
-                    this.CreateMicrophoneRecoClientWithIntent();
-                }
-                else
-                {
-                    this.CreateMicrophoneRecoClient();
-                }
+  
+                this.CreateMicrophoneRecoClient();
+                
             }
 
             this.micClient.StartMicAndRecognition();
@@ -341,28 +287,6 @@ namespace ScareFloor.WPFVoice
             this.micClient.OnConversationError += this.OnConversationErrorHandler;
         }
 
-        /// <summary>
-        /// Creates a new microphone reco client with LUIS intent support.
-        /// </summary>
-        private void CreateMicrophoneRecoClientWithIntent()
-        {
-            this.WriteLine("--- Start microphone dictation with Intent detection ----");
-
-            this.micClient =
-                SpeechRecognitionServiceFactory.CreateMicrophoneClientWithIntent(
-                this.DefaultLocale,
-                this.SubscriptionKey,
-                this.LuisAppId,
-                this.LuisSubscriptionID);
-            this.micClient.AuthenticationUri = this.AuthenticationUri;
-            this.micClient.OnIntent += this.OnIntentHandler;
-
-            // Event handlers for speech recognition results
-            this.micClient.OnMicrophoneStatus += this.OnMicrophoneStatus;
-            this.micClient.OnPartialResponseReceived += this.OnPartialResponseReceivedHandler;
-            this.micClient.OnResponseReceived += this.OnMicShortPhraseResponseReceivedHandler;
-            this.micClient.OnConversationError += this.OnConversationErrorHandler;
-        }
 
         /// <summary>
         /// Handles the Click event of the HelpButton control.
@@ -393,7 +317,6 @@ namespace ScareFloor.WPFVoice
                 this.WriteResponseResult(e);
 
                 _startButton.IsEnabled = true;
-                _radioGroup.IsEnabled = true;
             }));
         }
 
@@ -445,7 +368,6 @@ namespace ScareFloor.WPFVoice
                         this.micClient.EndMicAndRecognition();
 
                         this._startButton.IsEnabled = true;
-                        this._radioGroup.IsEnabled = true;
                     }));
             }
 
@@ -491,7 +413,6 @@ namespace ScareFloor.WPFVoice
             Dispatcher.Invoke(() =>
             {
                 _startButton.IsEnabled = true;
-                _radioGroup.IsEnabled = true;
             });
 
             this.WriteLine("--- Error received by OnConversationErrorHandler() ---");
@@ -660,7 +581,6 @@ namespace ScareFloor.WPFVoice
 
             this._logText.Text = string.Empty;
             this._startButton.IsEnabled = true;
-            this._radioGroup.IsEnabled = true;
         }
 
         private void _cheater_Click(object sender, RoutedEventArgs e)
