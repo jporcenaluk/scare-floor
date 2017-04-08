@@ -6,9 +6,9 @@
         xmlns:local="clr-namespace:ScareFloor.LeaderBoard"
         mc:Ignorable="d"
         Title="MainWindow" Height="350" Width="525">
-    <StackPanel>
-        <TextBox Text="Current User"></TextBox>
-        <TextBlock Name="LeaderboardValue" FontSize="36"></TextBlock>
-        <Button Content="Reset" Click="Reset"/>
+    <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
+        <TextBlock Foreground="#FF6EA6DA" FontFamily="Monster AG" FontSize="36">leader board</TextBlock>
+        <TextBlock Name="LeaderboardValue" FontSize="172" Foreground="#FF6EA6DA" HorizontalAlignment="Center" Margin="0" FontFamily="Abril Fatface">0</TextBlock>
+        <Button Content="reset" Click="Reset" FontFamily="Monster AG" Margin="0" Padding="10,3" HorizontalAlignment="Center" Background="#FF6EA6DA" BorderBrush="#FF6EA6DA" Foreground="White" FontSize="20"/>
     </StackPanel>
 </Window>
